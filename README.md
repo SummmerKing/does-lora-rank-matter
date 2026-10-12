@@ -161,34 +161,5 @@ Individual steps:
 | evaluate | `python scripts/evaluate.py --run runs/lora_r16/seed0` (or `--base`) | `results/lora_r16/seed0/` |
 | aggregate | `python scripts/aggregate.py` | `results/summary.md`, `results/figures/` |
 
-On Colab, open `notebooks/run_study.ipynb` with an A100 or L4 runtime and run
-the cells in order. Outputs are kept on Google Drive so a disconnected session
-can resume.
 
-**Note:** evaluation executes model-generated code. The resource limits catch
-infinite loops and memory blowups but are not a security sandbox, so run it
-on a machine you don't mind messing up.
 
-## Limitations
-
-- One model (1.5B). Larger models may respond to rank differently.
-- One training set and one epoch. Rank might matter more with more data or
-  longer training.
-- pass@1 with greedy decoding only; pass@k with sampling isn't reported
-  (the estimator is in `stats.pass_at_k`).
-- HumanEval and MBPP are short, self-contained function-level tasks.
-- The base model was evaluated once (it's deterministic under greedy
-  decoding), so its row has no seed SD.
-
-## References
-
-- Hu et al. (2021). *LoRA: Low-Rank Adaptation of Large Language Models.* arXiv:2106.09685
-- Hayou, Ghosh & Yu (2024). *LoRA+: Efficient Low Rank Adaptation of Large Models.* arXiv:2402.12354
-- Kalajdzievski (2023). *A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA.* arXiv:2312.03732
-- Chen et al. (2021). *Evaluating Large Language Models Trained on Code.* arXiv:2107.03374
-- Austin et al. (2021). *Program Synthesis with Large Language Models.* arXiv:2108.07732
-- Qwen Team (2024). *Qwen2.5 Technical Report.* arXiv:2412.15115
-
-## License
-
-MIT
