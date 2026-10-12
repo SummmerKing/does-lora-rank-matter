@@ -1,8 +1,6 @@
-"""Pick each configuration's learning rate by *validation loss* (never by
-benchmark score), using short runs with one seed. Writes runs/selected_lr.json.
+"""Short runs over each config's LR grid; keeps the LR with the lowest val loss.
 
-Every configuration gets the same tuning budget, so no method is favoured by
-a better-tuned learning rate.
+Writes runs/selected_lr.json and runs/sweep_table.json.
 """
 
 import json

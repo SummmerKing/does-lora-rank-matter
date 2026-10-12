@@ -17,7 +17,7 @@ def load_base(model_name: str, device: str = "cuda", dtype=torch.bfloat16):
     tok = AutoTokenizer.from_pretrained(model_name)
     if tok.pad_token_id is None:
         tok.pad_token = tok.eos_token
-    # transformers renamed `torch_dtype` to `dtype`; support both.
+    # newer transformers versions call it `dtype`
     kw = "dtype" if "dtype" in inspect.signature(AutoModelForCausalLM.from_pretrained).parameters else "torch_dtype"
     model = AutoModelForCausalLM.from_pretrained(model_name, **{kw: dtype}).to(device)
     model.config.use_cache = False

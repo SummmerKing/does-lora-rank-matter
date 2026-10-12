@@ -1,21 +1,7 @@
-"""Training data: formatting, response-only loss masking, decontamination.
+"""Training data: chat formatting, prompt masking and decontamination.
 
-Loss masking
-------------
-For a causal LM trained on (prompt, response) pairs, the objective should be
-
-    L = - (1 / |R|) * sum_{t in R} log p(x_t | x_<t),
-
-where R is the set of *response* token positions. Positions belonging to the
-prompt (system message, user instruction, chat-template scaffolding) and to
-padding get label -100, which PyTorch's cross-entropy ignores. Training on
-prompt or padding tokens inflates the token count with easy-to-predict
-positions and makes the loss uninformative about code quality.
-
-The prompt and response are tokenized *separately* and concatenated. This
-guarantees the prompt tokens are identical to what the model sees at
-inference time (where the prompt is tokenized alone), so the prompt/response
-boundary can never be shifted by a BPE merge across it.
+Prompt and response are tokenized separately so the prompt tokens are exactly
+what the model sees at inference time. Only response tokens get labels.
 """
 
 from __future__ import annotations
@@ -93,8 +79,6 @@ class Collator:
         }
 
 
-# ---------------------------------------------------------------- normalising
-
 FENCE_RE = re.compile(r"```(?:python|py)?\s*\n(.*?)```", re.DOTALL)
 
 
@@ -128,8 +112,6 @@ def extract_fields(example: dict) -> tuple[str, str]:
     return instruction, output
 
 
-# ------------------------------------------------------------ decontamination
-
 def _norm_tokens(text: str) -> list[str]:
     return re.findall(r"\w+|[^\w\s]", text.lower())
 
@@ -151,8 +133,6 @@ def is_contaminated(text: str, index: set[tuple[str, ...]], n: int = 13) -> bool
     13-gram overlap test used for GPT-3 contamination analysis)."""
     return not ngrams(text, n).isdisjoint(index)
 
-
-# -------------------------------------------------------------- dataset build
 
 def prepare_examples(
     rows: Iterable[dict],

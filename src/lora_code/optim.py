@@ -1,10 +1,5 @@
-"""Optimizer and learning-rate schedule.
-
-LoRA+ (Hayou, Ghosh & Yu, 2024) argues that A and B should not share a
-learning rate: in the infinite-width limit, efficient feature learning
-needs lr_B / lr_A = Theta(n). In practice they suggest lr_B = lambda * lr_A
-with lambda around 16. With lambda = 1 this reduces to plain LoRA.
-"""
+"""AdamW with separate learning rates for A and B (LoRA+, Hayou et al., 2024),
+plus a warmup + cosine schedule. loraplus_ratio=1 is plain LoRA."""
 
 from __future__ import annotations
 

@@ -1,20 +1,8 @@
-"""Statistics for comparing code-generation configurations.
+"""pass@1 with bootstrap CIs, paired comparisons and Holm correction.
 
-Notation: a configuration evaluated with S training seeds on P benchmark
-problems gives a 0/1 matrix X of shape (S, P), X[s, p] = 1 if seed s solved
-problem p (greedy decoding, so pass@1 is deterministic given the weights).
-
-* pass@1 = mean of X. Seed-to-seed SD is reported separately.
-* Confidence intervals bootstrap over *problems*: the benchmark is a sample
-  from a population of possible problems, and that is the dominant source of
-  uncertainty when P is a few hundred.
-* Comparisons between configurations are *paired* by problem: we compute
-  d_p = mean_s X_A[s, p] - mean_s X_B[s, p] and test mean(d) = 0 with a
-  sign-flip permutation test, which is exact under the null that the
-  per-problem differences are symmetric about zero.
-* For one-vs-one deterministic runs, McNemar's exact test on the discordant
-  pairs is reported as well.
-* Holm-Bonferroni controls the family-wise error rate across the comparisons.
+Results for one config are a (seeds x problems) 0/1 matrix. CIs resample
+problems; comparisons use a sign-flip permutation test on the per-problem
+differences.
 """
 
 from __future__ import annotations

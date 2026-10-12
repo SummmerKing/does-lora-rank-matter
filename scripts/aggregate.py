@@ -1,10 +1,7 @@
-"""Aggregate all evaluated runs into results/summary.md, results/summary.json
-and figures in results/figures/.
+"""Collects all evaluated runs into results/summary.{md,json} and results/figures/.
 
-Comparisons (per benchmark, Holm-corrected together):
-  * every fine-tuned configuration vs the base model
-  * lora_r4 vs lora_r16 and lora_r64 vs lora_r16       (does rank matter?)
-  * loraplus_r16 vs lora_r16                            (does LoRA+ matter?)
+Every fine-tuned config is compared with the base model, and r4, r64 and LoRA+
+with r16. p-values are Holm-corrected per benchmark.
 """
 
 import json
@@ -17,7 +14,7 @@ from lora_code.stats import holm, mcnemar_exact, paired_comparison, summarize
 BENCHES = ["humaneval", "mbpp"]
 PAIRS = [("lora_r4", "lora_r16"), ("lora_r64", "lora_r16"), ("loraplus_r16", "lora_r16")]
 
-# Reference categorical palette (light mode), plus a neutral for the baseline.
+# plot colours
 INK, MUTED, GRIDC = "#0b0b0b", "#52514e", "#e4e3df"
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#6250d6"]
 

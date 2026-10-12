@@ -1,15 +1,9 @@
-"""Low-Rank Adaptation (Hu et al., 2021), implemented from scratch.
+"""LoRA layers (Hu et al., 2021), written without peft.
 
-For a frozen linear layer y = W0 x (+ b), LoRA learns a low-rank update
+    y = W0 x + s * B A x,   s = alpha / r   (alpha / sqrt(r) for rsLoRA)
 
-    y = W0 x + s * B A x,      A in R^{r x d_in},  B in R^{d_out x r}
-
-with scaling s = alpha / r (standard) or s = alpha / sqrt(r) (rsLoRA,
-Kalajdzievski, 2023). B is initialised to zero, so the adapted model is
-exactly the base model at step 0. Only A and B receive gradients.
-
-Adapter weights are kept in float32 even when the base model runs in
-bf16, so that small updates are not lost to bf16 rounding.
+B starts at zero, so the wrapped model is identical to the base model before
+training. Adapters stay in fp32 while the base model runs in bf16.
 """
 
 from __future__ import annotations
@@ -93,7 +87,7 @@ def apply_lora(
     dropout: float = 0.0,
     rslora: bool = False,
 ) -> list[str]:
-    """Freeze `model` and wrap every nn.Linear whose *final* name component
+    """Freeze `model` and wrap every nn.Linear whose last name component
     is in `target_modules` (exact match, so "proj" never matches "o_proj").
     Returns the qualified names of the wrapped layers."""
     targets = set(target_modules)

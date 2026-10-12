@@ -1,9 +1,4 @@
-"""HumanEval and MBPP: prompts for an instruction-tuned model, and assembly
-of the executable test program from a model response.
-
-Both models in a comparison (base and fine-tuned) get identical prompts and
-identical post-processing, so differences in pass@1 come from the weights.
-"""
+"""HumanEval and MBPP prompts, and building a runnable test program from a model response."""
 
 from __future__ import annotations
 
@@ -18,8 +13,6 @@ def extract_code(response: str) -> str:
     m = FENCE_RE.search(response)
     return (m.group(1) if m else response).strip("\n")
 
-
-# ------------------------------------------------------------------ HumanEval
 
 def humaneval_instruction(problem: dict) -> str:
     return (
@@ -44,8 +37,6 @@ def humaneval_program(problem: dict, response: str) -> str:
         body = problem["prompt"] + code
     return f"{body}\n\n{problem['test']}\n\ncheck({entry})\n"
 
-
-# ----------------------------------------------------------------------- MBPP
 
 def mbpp_instruction(problem: dict) -> str:
     # One test is shown so the required function name and signature are known

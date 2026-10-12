@@ -1,13 +1,7 @@
-"""Run untrusted generated programs in a separate, resource-limited process.
+"""Runs generated programs in a subprocess with rlimits and a timeout.
 
-Each program runs in a fresh `python -I` subprocess, in its own temporary
-directory and process group, with limits on CPU time, memory, file size and
-open files, and a wall-clock timeout that kills the whole group.
-
-This contains accidents (infinite loops, memory blow-ups, stray file writes).
-It is NOT a security boundary against deliberately malicious code; run
-evaluations in a disposable VM or Colab runtime, as is standard practice
-for HumanEval-style benchmarks.
+This catches infinite loops, memory blowups and stray file writes, but it is
+not a real sandbox, so run evals somewhere disposable.
 """
 
 from __future__ import annotations

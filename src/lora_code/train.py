@@ -1,13 +1,8 @@
 """Training loop.
 
-Loss normalisation: with gradient accumulation, averaging each micro-batch's
-mean loss gives short-response micro-batches the same weight as long ones,
-which is not the objective we want. Instead each optimizer step minimises
-
-    L = sum_{tokens in window} -log p / (number of response tokens in window),
-
-i.e. the exact token-level mean over the whole accumulation window. Validation
-loss is computed the same way over the full validation set.
+With gradient accumulation the loss is summed over the whole window and divided
+by the number of response tokens in it, so examples are weighted per token
+rather than per micro-batch.
 """
 
 from __future__ import annotations
