@@ -1,0 +1,26 @@
+{
+  "rank": 64,
+  "alpha": 128,
+  "dropout": 0.05,
+  "rslora": false,
+  "loraplus_ratio": 1,
+  "lr": 0.0002,
+  "weight_decay": 0.0,
+  "epochs": 0.3,
+  "micro_batch_size": 8,
+  "grad_accum": 4,
+  "warmup_ratio": 0.03,
+  "max_grad_norm": 1.0,
+  "eval_every": 50,
+  "seed": 0,
+  "bf16": true,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ]
+}
