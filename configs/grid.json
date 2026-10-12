@@ -1,0 +1,23 @@
+{
+  "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+  "train_dataset": "iamtarun/python_code_instructions_18k_alpaca",
+  "max_length": 1024,
+  "val_size": 500,
+  "seeds": [0, 1, 2],
+  "common": {
+    "dropout": 0.05,
+    "epochs": 1.0,
+    "micro_batch_size": 8,
+    "grad_accum": 4,
+    "warmup_ratio": 0.03,
+    "weight_decay": 0.0,
+    "eval_every": 50
+  },
+  "configs": {
+    "lora_r4":      {"rank": 4,  "alpha": 8,   "loraplus_ratio": 1,  "lr_grid": [1e-4, 2e-4, 4e-4]},
+    "lora_r16":     {"rank": 16, "alpha": 32,  "loraplus_ratio": 1,  "lr_grid": [1e-4, 2e-4, 4e-4]},
+    "lora_r64":     {"rank": 64, "alpha": 128, "loraplus_ratio": 1,  "lr_grid": [1e-4, 2e-4, 4e-4]},
+    "loraplus_r16": {"rank": 16, "alpha": 32,  "loraplus_ratio": 16, "lr_grid": [2.5e-5, 5e-5, 1e-4]}
+  },
+  "lr_sweep": {"seed": 0, "epochs": 0.3}
+}

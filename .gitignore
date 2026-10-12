@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.cache/
+.ipynb_checkpoints/
+# Regenerable or large. Run configs, metrics and per-problem results ARE committed.
+data/
+runs/**/adapter.pt
